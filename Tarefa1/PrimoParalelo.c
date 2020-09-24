@@ -4,12 +4,6 @@
 #include "./func.h"
 
 int main(int argc, char* argv[]){
-
-    int *array;
-    array = (int*) malloc(TAM * sizeof(int));
-    populaArray(array);
-    verificaPrimosParalelamente(array, atoi(argv[1]));
-
-    free(array);
+    verificaPrimosParalelamente(argv);
     return 0;
 }
