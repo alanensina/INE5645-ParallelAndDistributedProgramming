@@ -1,6 +1,12 @@
 int cores;
 int tam;
 
+typedef struct {
+    int min;
+    int max;
+    int* vetor;
+} Data;
+
 void populaArray(int array[]) {
   for (int i = 0; i < tam; i++) {
     array[i] = i;
@@ -29,31 +35,41 @@ void verificaPrimosSequencial(int faixa) {
 
   printf("Números primos no intervalo de 1 a %d:\n", tam);
 
-  for (int i = 0; i < tam; i++) {
+  for (int i = 1; i < tam; i++) {
     validarNumero(array[i]);
   }
   free(array);
 }
 
-void * processar(void * array) {
-  int * arr = (int * ) array;
+void * processar(void * data) {
+  struct Data *my_data = (struct Data*) data;
 
-  for (int x = 0; x < tam; x++) { //TODO: verificar como quebrar a granularidade em cada thread
-    validarNumero(arr[x]);
+  for (int x = my_data->min; x < my_data->max; x++) {
+    validarNumero(my_data->vetor[x]);
   }
+
+  free(my_data);
 }
 
 void verificaPrimosParalelamente(char * argv[]) {
   tam = atoi(argv[1]);
+  cores = atoi(argv[2]);
+  pthread_t threads[cores];
   int * array;
+  int intervalo = tam/cores;
+
   array = (int * ) malloc(tam * sizeof(int));
   populaArray(array);
 
-  cores = atoi(argv[2]);
-  pthread_t threads[cores];
+  printf("Números primos no intervalo de 1 a %d:\n", tam);
 
   for (int i = 0; i < cores; i++) {
-    pthread_create( & threads[i], NULL, processar, (void * ) array);
+
+    Data *dados = (Data *) malloc(sizeof(Data));
+    dados -> vetor = array;
+    dados -> min = array[intervalo * i];
+    dados -> max = array[intervalo * (i + 1)];
+    pthread_create( & threads[i], NULL, processar, &dados);
   }
 
   for (int j = 0; j < cores; j++) {
