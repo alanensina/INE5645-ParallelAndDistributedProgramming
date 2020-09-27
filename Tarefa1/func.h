@@ -27,19 +27,14 @@ void validarNumero(int num) {
 }
 
 void verificaPrimosSequencial(int faixa) {
-  tam = faixa;
-  int * array;
-  array = (int * ) malloc(faixa * sizeof(int));
-  populaArray(array);
 
   printf("----------------------------------------------------------\n");
   printf("Números primos no intervalo de 1 a %d:\n", tam);
   printf("----------------------------------------------------------\n");
 
-  for (int i = 1; i <= tam; i++) {
-    validarNumero(array[i]);
+  for (int i = 1; i <= faixa; i++) {
+    validarNumero(i);
   }
-  free(array);
 }
 
 void * processar(void * data) {
