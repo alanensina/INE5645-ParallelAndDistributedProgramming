@@ -78,6 +78,6 @@ void inicializa(char * argv[]) {
   free(op1);
   free(op2);
 
-  printf("Depósitos e saques finalizados com sucesso.");
+  printf("Depósitos e saques finalizados com sucesso.\n");
   informaSaldo();
 }
