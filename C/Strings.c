@@ -14,9 +14,10 @@ int main(){
 
     char *string = "TESTE";
     char buff[20];
+    printf("Digite uma palavra:\n");
     scanf("%s", buff);
 
-    printf("Você digitou: %s, com tamanho: %d\n", buff, strlen(buff));
+    printf("Você digitou: %s, com tamanho: %ld \n", buff, strlen(buff));
 
     return 0;
 }
